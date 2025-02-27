@@ -8,17 +8,10 @@ export const getCartPrice: GetCartPrice = (quantity, unitPrice) => {
   return quantity * unitPrice;
 };
 
-export const getPricePlusTVA = (state: string, price: number): number => {
+type State = "UT" | "NV" | "TX" | "AL" | "CA";
+
+export const getPricePlusTVA = (state: State, price: number): number => {
   if (price < 0) {
-    throw new Error("Invalid input");
-  }
-  if (
-    state !== "UT" &&
-    state !== "NV" &&
-    state !== "TX" &&
-    state !== "AL" &&
-    state !== "CA"
-  ) {
     throw new Error("Invalid input");
   }
 
@@ -57,4 +50,15 @@ export const getPriceMinusReduction = (price: number): number => {
   }
 
   return price - price * reduction;
+};
+
+export const getFinalCartPrice = (
+  quantity: number,
+  unitPrice: number,
+  state: State
+): number => {
+  const price = getCartPrice(quantity, unitPrice);
+  const priceMinnusReduction = getPriceMinusReduction(price);
+
+  return getPricePlusTVA(state, priceMinnusReduction);
 };
