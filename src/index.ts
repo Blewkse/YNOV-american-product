@@ -37,16 +37,16 @@ export const getPriceMinusReduction = (price: number): number => {
   }
 
   let reduction = 0;
-  if (price >= 1000) {
-    reduction = 0.03;
-  } else if (price >= 5000) {
-    reduction = 0.05;
-  } else if (price >= 7000) {
-    reduction = 0.07;
+  if (price >= 50000) {
+    reduction = 0.15;
   } else if (price >= 10000) {
     reduction = 0.1;
-  } else if (price === 50000) {
-    reduction = 0.15;
+  } else if (price >= 7000) {
+    reduction = 0.07;
+  } else if (price >= 5000) {
+    reduction = 0.05;
+  } else if (price >= 1000) {
+    reduction = 0.03;
   }
 
   return price - price * reduction;

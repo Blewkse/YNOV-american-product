@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { getCartPrice } from "..";
+import { getCartPrice, getPriceMinusReduction, getPricePlusTVA } from "..";
 
 describe("Price by cart", () => {
   it("test 1 product", () => {
@@ -17,19 +17,49 @@ describe("Price by cart", () => {
   it("test 4 products other price", () => {
     expect(getCartPrice(4, 3.5)).toBe(14);
   });
+});
+
+describe("Price by reduction", () => {
   it("should apply 3% reduction", () => {
-    expect(getCartPrice(2, 1000)).toBe(1940);
+    expect(getPriceMinusReduction(1000)).toBe(970);
   });
   it("should apply 5% reduction", () => {
-    expect(getCartPrice(6, 1000)).toBe(5700);
+    expect(getPriceMinusReduction(5000)).toBe(4750);
   });
   it("should apply 7% reduction", () => {
-    expect(getCartPrice(8, 1000)).toBe(7440);
+    expect(getPriceMinusReduction(7000)).toBe(6510);
   });
   it("should apply 10% reduction", () => {
-    expect(getCartPrice(11, 1000)).toBe(9900);
+    expect(getPriceMinusReduction(10000)).toBe(9000);
   });
   it("should apply 15% reduction", () => {
-    expect(getCartPrice(51, 1000)).toBe(43350);
+    expect(getPriceMinusReduction(50000)).toBe(42500);
+  });
+  it("should throw error", () => {
+    expect(() => getPriceMinusReduction(-1)).toThrow("Invalid input");
+  });
+});
+
+describe("Price by state", () => {
+  it("should apply 6.85% reduction", () => {
+    expect(getPricePlusTVA("UT", 100)).toBe(106.85);
+  });
+  it("should apply 8% reduction", () => {
+    expect(getPricePlusTVA("NV", 100)).toBe(108);
+  });
+  it("should apply 6.25% reduction", () => {
+    expect(getPricePlusTVA("TX", 100)).toBe(106.25);
+  });
+  it("should apply 4% reduction", () => {
+    expect(getPricePlusTVA("AL", 100)).toBe(104);
+  });
+  it("should apply 8.25% reduction", () => {
+    expect(getPricePlusTVA("CA", 100)).toBe(108.25);
+  });
+  it("should throw error", () => {
+    expect(() => getPricePlusTVA("FR", 100)).toThrow("Invalid input");
+  });
+  it("should throw error", () => {
+    expect(() => getPricePlusTVA("UT", -1)).toThrow("Invalid input");
   });
 });
