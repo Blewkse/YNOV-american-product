@@ -17,4 +17,19 @@ describe("Price by cart", () => {
   it("test 4 products other price", () => {
     expect(getCartPrice(4, 3.5)).toBe(14);
   });
+  it("should apply 3% reduction", () => {
+    expect(getCartPrice(2, 1000)).toBe(1940);
+  });
+  it("should apply 5% reduction", () => {
+    expect(getCartPrice(6, 1000)).toBe(5700);
+  });
+  it("should apply 7% reduction", () => {
+    expect(getCartPrice(8, 1000)).toBe(7440);
+  });
+  it("should apply 10% reduction", () => {
+    expect(getCartPrice(11, 1000)).toBe(9900);
+  });
+  it("should apply 15% reduction", () => {
+    expect(getCartPrice(51, 1000)).toBe(43350);
+  });
 });
