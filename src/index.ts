@@ -1,7 +1,9 @@
-import { Elysia } from "elysia";
+type GetCartPrice = (quantity: number, unitPrice: number) => number;
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+export const getCartPrice: GetCartPrice = (quantity, unitPrice) => {
+  if (quantity < 0 || unitPrice < 0) {
+    throw new Error("Invalid input");
+  }
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+  return quantity * unitPrice;
+};
